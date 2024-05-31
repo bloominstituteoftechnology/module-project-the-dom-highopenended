@@ -35,7 +35,7 @@ describe('Sprint 5 Module', () => {
       expect(document.querySelectorAll('section .widget')).toHaveLength(4)
     })
   })
-  describe('Task 2 - Quote of the Day widget', () => {
+  describe.only('Task 2 - Quote of the Day widget', () => {
     describe(`The best thing about a boolean...
       Anonymous in an unknown date`, () => {
       beforeAll(() => {

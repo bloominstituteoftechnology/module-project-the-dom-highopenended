@@ -27,10 +27,7 @@ function moduleProject1() {
     myAuthorText+= (rndQuote.date===null ? " in an unknown date" : " in " + rndQuote.date);
 
     divAuthor.textContent=rndQuote.author;
-
     divAuthor.textContent=myAuthorText;
-    console.log(divAuthor.textContent);
-
 
     divQuoteOfTheDay.appendChild(divQuote);
     divQuoteOfTheDay.appendChild(divAuthor);
@@ -72,7 +69,7 @@ function moduleProject1() {
 
     // Decrement the countdown
     function decrement(){
-      if(countdownTime>0){
+      if(countdownTime>1){
         countdownTime--;
         pCountdown.textContent= `T-minus ${countdownTime}...`;
       }else{
@@ -107,29 +104,30 @@ function moduleProject1() {
 
     // Get the string ending for any number of friends (ex. might return "Alex, Sarah, and Samantha");
     function getFriendListStr(person){
-      let returnStr='';
-      let arrFriendIds=person.friends;
+      let returnStr='is friends with ';
       let arrFriendNames=[];
 
-      arrFriendIds.forEach(personID=>{
-        let result = people.filter((person) => {return person.id === personID;})
-        arrFriendNames.push(result[0].fname);
+      // Get array of friends' full names
+      person.friends.forEach(personID=>{
+        let result = people.filter((friend) => {return friend.id === personID;})
+        arrFriendNames.push(getFullName(result[0]));        
       })
 
-      if(arrFriendNames.length<=0){
-        returnStr="has no friends"
-      }else{
-        returnStr="is friends with "
-        for(let i=0; i<arrFriendNames.length; i++){
-          let friendName=arrFriendNames[i];  
-          if(i===arrFriendNames.length-1){
-            arrFriendNames.length!==1 ? returnStr+="and " : returnStr+=" ";
-            returnStr+=friendName;
-          }else{
-            returnStr+=friendName;
-            arrFriendNames.length!==2 ? returnStr+=", " : returnStr+=" ";
-          }
-        }
+      // Zero friends
+      if(arrFriendNames.length===0){return "has no friends";}
+
+      // One friend
+      if(arrFriendNames.length===1){return `${returnStr} ${arrFriendNames[0]}`;}
+
+      // Two or more friends
+      for(let i=0; i<arrFriendNames.length; i++){
+        const friendName=arrFriendNames[i];
+
+        // Last friend
+        if(i===arrFriendNames.length-1){return `${returnStr}and ${friendName}`;}
+
+        // Not last friend
+        returnStr+= i!==arrFriendNames.length-2 ? `${friendName}, ` : `${friendName} `;
       }
       return returnStr;
     }
@@ -148,7 +146,8 @@ function moduleProject1() {
 
 
   function getRndArrVal(arr){
-    const rnd=Math.round(Math.random()*((arr.length-1)-0)+0);
+    // const rnd=Math.round(Math.random()*((arr.length-1)-0)+0);
+    let rnd=Math.floor(Math.random()*arr.length);
     return arr[rnd];
   }
   // 👆 WORK WORK ABOVE THIS LINE 👆
